@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 public class stringChallenge {
     // Wrapper for recursive function to enclose the match list
     public static String solver(String init, String[] matches){
