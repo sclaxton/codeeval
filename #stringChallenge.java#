@@ -1,0 +1,63 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class stringChallenge {
+    public static String recursive(String init, ArrayList<String> matches){
+        if (init.length() == 0){
+            return "";
+        }
+        if (matches.isEmpty()) {
+            return "";
+        }
+        String result_str = "";
+        String match = matches.remove(0);
+        String[] pieces = init.split(match, 2);
+        if (pieces.length == 1) {
+            result_str = recursive(init, matches);
+        }
+        else {
+            if (pieces[0].contains(matches.get(0))){
+                result_str = recursive(pieces[0],matches).concat(match).concat(pieces[1]);
+            }
+            else {
+                 result_str = pieces[0].concat(match).concat(recursive(pieces[1],matches));
+            }
+        }
+        return result_str;
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = null;
+        List<String> lines = new ArrayList<String>();
+        try {
+                in = new BufferedReader(new FileReader("data.txt"));
+        String str;
+        while ((str = in.readLine()) != null) {
+                    lines.add(str);
+                        }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                        in.close();
+                            }
+        }
+        for (String line : lines){
+            String[] split = line.split(";",0);
+            String init_str = split[0];
+            String str_split = split[1];
+            String[] split2 = str_split.split(",");
+            System.out.println(split2[0]);
+            ArrayList<String> matching_strs = new ArrayList<String> (Arrays.asList(split2));
+            String test = matching_strs.get(0);
+            String result = recursive(init_str, matching_strs);
+            System.out.println(test);
+        }
+    }
+}
